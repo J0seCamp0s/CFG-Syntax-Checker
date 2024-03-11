@@ -1,7 +1,6 @@
 class menu():
     def __init__(self, command):
         self.command = command
-
     @staticmethod
     def get_command(usr_inpt):
         usr_inpt = menu.format_string(usr_inpt)
@@ -24,6 +23,8 @@ class menu():
         lowered_fixed_str = fixed_str.lower()
         print(lowered_fixed_str)
         return (lowered_fixed_str)
+    def parse_file(command):
+        pass
 def main():
     while True:
         print("Please choose a type of file to read\n")
