@@ -11,7 +11,7 @@ class CFG():
         file = open(path, 'r')
         # Read the file
         inpt_str = file.read()
-        html_terminals = [
+        html_nonterminals = [
         "html",
         "head",
         "meta",
@@ -33,6 +33,10 @@ class CFG():
         "image",
         "anchor",
         "div"]
+        html_terminals = [
+        "<html>","</html>",
+        "<head>","</head>"
+        ]
         # Close the file
         file.close()
     @staticmethod
