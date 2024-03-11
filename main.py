@@ -7,12 +7,13 @@ class menu():
         menu.remove_space(usr_inpt)
     
     @staticmethod
-    def remove_space(inpt_str):
+    def format_string(inpt_str):
         fixed_str = ""
         for ch in inpt_str:
             if ch != ' ':
                 fixed_str += ch
-        return (fixed_str)
+        lowered_fixed_str = fixed_str.lower()
+        return (lowered_fixed_str)
 
 while True:
     print("Please choose a type of file to read\n")
