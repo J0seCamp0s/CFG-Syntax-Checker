@@ -28,6 +28,7 @@ while True:
     print("Please choose a type of file to read\n")
     print("Type html for .html file\nType xml for .xml\nType custom for custom language file\n")
     mode = input("Please enter your input: ")
+    menu.get_command(mode)
     if mode == 1:
         continue
     parser_menu = menu(mode)
