@@ -23,18 +23,20 @@ class menu():
                 fixed_str += ch
         lowered_fixed_str = fixed_str.lower()
         return (lowered_fixed_str)
-
-while True:
-    print("Please choose a type of file to read\n")
-    print("Type html for .html file\nType xml for .xml\nType custom for custom language file\n")
-    mode = input("Please enter your input: ")
-    menu.get_command(mode)
-    if mode == 1:
-        continue
-    parser_menu = menu(mode)
-    if mode == 0:
-        pass
-    if mode == 1:
-        pass
-    if mode == 2:
-        pass
+def main():
+    while True:
+        print("Please choose a type of file to read\n")
+        print("Type html for .html file\nType xml for .xml\nType custom for custom language file\n")
+        inpt_mode = input("Please enter your input: ")
+        mode = menu.get_command(inpt_mode)
+        if mode == 1:
+            continue
+        parser_menu = menu(mode)
+        if mode == 0:
+            pass
+        if mode == 1:
+            pass
+        if mode == 2:
+            pass
+if __name__ == "__main__":
+    main()
