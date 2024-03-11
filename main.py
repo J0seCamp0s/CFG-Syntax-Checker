@@ -6,14 +6,14 @@ class menu():
     def get_command(usr_inpt):
         menu.remove_space(usr_inpt)
         accept_strings = ["xml","html","custom"]
-        if(usr_inpt not in accept_strings):
+        if usr_inpt not in accept_strings:
             print("Invalid input given!\nPlease try again.\n")
             return(-1)
-        if(usr_inpt == "xml"):
+        if usr_inpt == "xml":
             return(0)
-        if(usr_inpt == "html"):
+        if usr_inpt == "html":
             return(1)
-        if(usr_inpt == "custom"):
+        if usr_inpt == "custom":
             return(2)
     @staticmethod
     def format_string(inpt_str):
@@ -28,3 +28,12 @@ while True:
     print("Please choose a type of file to read\n")
     print("Type html for .html file\nType xml for .xml\nType custom for custom language file\n")
     mode = input("Please enter your input: ")
+    if mode == 1:
+        continue
+    parser_menu = menu(mode)
+    if mode == 0:
+        pass
+    if mode == 1:
+        pass
+    if mode == 2:
+        pass
