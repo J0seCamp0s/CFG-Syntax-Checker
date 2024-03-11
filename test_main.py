@@ -14,5 +14,5 @@ def test_get_command3():
     assert output == 2
 
 def test_get_command3():
-    output = menu.get_command(input: "notaccept")
+    output = menu.get_command("notaccept")
     assert output == -1
