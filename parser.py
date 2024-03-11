@@ -12,9 +12,9 @@ class CFG():
         # Read the file
         inpt_str = file.read()
         html_nonterminals = [
+        "S"
         "html",
         "head",
-        "meta",
         "title",
         "body",
         "list",
@@ -60,6 +60,7 @@ class CFG():
         "<form>", "</form>",
         "<textarea>", "</textarea>"
         ]
+        html_prods = []
         # Close the file
         file.close()
     @staticmethod
