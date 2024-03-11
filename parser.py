@@ -12,15 +12,18 @@ class CFG():
         # Read the file
         inpt_str = file.read()
         html_terminals = [
-        "<head>","</head>",
-        "<body>","</body>",
-        "<title>","</title>",
-        "<h1>","</h1>",
-        "<p>","</p>",
-        "html","/html",
-        "<ul>","</ul>",
-        "<li>","</li>",
-        "<a>","</a>"]
+        "html",
+        "head",
+        "meta",
+        "title",
+        "body",
+        "list",
+        "paragraph",
+        "button",
+        "links",
+        "image",
+        "anchor",
+        "div"]
         # Close the file
         file.close()
     @staticmethod
