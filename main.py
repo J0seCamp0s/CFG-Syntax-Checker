@@ -5,7 +5,16 @@ class menu():
     @staticmethod
     def get_command(usr_inpt):
         menu.remove_space(usr_inpt)
-    
+        accept_strings = ["xml","html","custom"]
+        if(usr_inpt not in accept_strings):
+            print("Invalid input given!\nPlease try again.\n")
+            return(-1)
+        if(usr_inpt == "xml"):
+            return(0)
+        if(usr_inpt == "html"):
+            return(1)
+        if(usr_inpt == "custom"):
+            return(2)
     @staticmethod
     def format_string(inpt_str):
         fixed_str = ""
