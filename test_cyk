@@ -24,7 +24,6 @@ for event, element in tree_iter:
 
 def initialize_table(input_string, grammar):
     n = len(input_string)
-    print(n)
     table = [[set() for _ in range(n)] for _ in range(n)]
     
     # Initialize the table with terminals derived directly from input symbols
@@ -39,7 +38,6 @@ def initialize_table(input_string, grammar):
 
 def fill_table(table, grammar):
     n = len(table)
-    print(n)
     column_arr = []
     row_arr = []
     for x in range(n):
@@ -49,14 +47,16 @@ def fill_table(table, grammar):
     start_row = 0
     start_col = n-1
     row_max = n
+    write_r = 0
+    write_c = 1
+    row_offset = 0
+    col_offset = 0
     while True:
-        for row in table:
-           print(row)
-        print("\n")
         while table[start_row][start_col] == set():
             start_col = start_col - 1
-            if start_col == 0:
+            if start_col == -1:
                 print("Table empty\n")
+                return
         c1 = table[start_row][start_col]
         c1_row = start_row
         c1_col = start_col
@@ -64,6 +64,8 @@ def fill_table(table, grammar):
         print(f"Current position of c1: [{c1_row}][{c1_col}]")
         while table[start_row][start_col] == set():
             start_row = start_row + 1
+            if start_row == n:
+                return("Table empty\n")
         c2 = table[start_row][start_col]
         c2_row = start_row
         c2_col = start_col
@@ -77,8 +79,8 @@ def fill_table(table, grammar):
                                 print(f"Current j: {j}")
                                 print(f"Current k: {k}")
                                 print(f"Found match in: {key}")
-                                print(f"Writting to: [{c1_row}][{c2_col}]\n")
-                                table[c1_row][c2_col].add(key)
+                                print(f"Writting to: [{write_r + row_offset}][{write_c + col_offset}]\n")
+                                table[write_r + row_offset][write_c + col_offset].add(key)
         for row in table:
            print(row)
         print("\n")
@@ -86,8 +88,16 @@ def fill_table(table, grammar):
         if start_row == row_max-1:
             start_row = 0
             row_max -= 1
+            write_c += 1
+            row_offset = 0
+            col_offset = 0
+            print("Diagonal finished\n")
         if row_max == 1:
+            print("Parse finish\n")
             break
+        row_offset += 1
+        col_offset += 1
+        print("Iteration finished\n")
     #for x in column_arr:
     #    
     #    for y in row_arr:
@@ -114,7 +124,7 @@ def cyk_algorithm(grammar, start_symbol, input_string):
     return start_symbol in table[0][-1]
 
 start_symbol = 'S'
-input_string = 'abaaaaaa'
+input_string = '<root/>'
 
 cfg = {
     'S': [('AB',), ('BC',)],
@@ -123,5 +133,5 @@ cfg = {
     'C': [('AB',), ('a',)]
 }
 
-result = cyk_algorithm(cfg, start_symbol, input_string)
+result = cyk_algorithm(prod_rules, start_symbol, input_string)
 print(result)  # Output: True
