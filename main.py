@@ -1,3 +1,5 @@
+from cyk import CFG
+
 class menu():
     def __init__(self, command):
         self.command = command
@@ -31,14 +33,6 @@ def main():
         print("Type html for .html file\nType xml for .xml\nType custom for custom language file\n")
         inpt_mode = input("Please enter your input: ")
         mode = menu.get_command(inpt_mode)
-        if mode == 1:
-            continue
-        parser_menu = menu(mode)
-        if mode == 0:
-            pass
-        if mode == 1:
-            pass
-        if mode == 2:
-            pass
+        
 if __name__ == "__main__":
     main()
