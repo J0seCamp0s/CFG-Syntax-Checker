@@ -94,59 +94,49 @@ class CFG():
     @staticmethod
     def fill_table(table, grammar):
         n = len(table)
-        start_row = 0
-        start_col = n-1
-        row_max = n
         write_r = 0
         write_c = 1
-        row_offset = 0
-        col_offset = 0
+        next_c = 0
         while True:
-            while table[start_row][start_col] == set():
-                start_col = start_col - 1
-                if start_col == -1:
-                    print("Table empty\n")
-                    return
-            for row in table:
-                print(row)
-            print("\n")
-            c1 = table[start_row][start_col]
-            c1_row = start_row
-            c1_col = start_col
-            start_col = start_col +1
-            #print(f"Current position of c1: [{c1_row}][{c1_col}]")
-            while table[start_row][start_col] == set():
-                start_row = start_row + 1
-                if start_row == n:
-                    return()
-            c2 = table[start_row][start_col]
-            c2_row = start_row
-            c2_col = start_col
-            #print(f"Current position of c2: [{c2_row}][{c2_col}]")
-            for j in c1:
-                    for k in c2:
-                        for key in grammar.keys():
-                            for prod in grammar[key]:
-                                look_string = j+k
-                                if look_string in prod:
-                                    #print(f"Current j: {j}")
-                                    #print(f"Current k: {k}")
-                                    #print(f"Found match in: {key}")
-                                    #print(f"Writting to: [{write_r + row_offset}][{write_c + col_offset}]\n")
-                                    table[write_r + row_offset][write_c + col_offset].add(key)
-            start_col = n-1
-            if start_row == row_max-1:
-                start_row = 0
-                row_max -= 1
-                write_c += 1
-                row_offset = 0
-                col_offset = 0
-                #print("Diagonal finished\n")
-            else:
-                row_offset += 1
-                col_offset += 1
-                #print("Iteration finished\n")
-            if row_max == 1:
-                #print("Parse finish\n")
-                break    
+            #assign values for the position of cell to compare
+            c1_r = write_r
+            c1_c = write_c
+            c2_r = write_r
+            c2_c = write_c
+            if next_c < n-1:
+                next_c = write_c + 1
+            #search for first non-empty cell in current row
+            while table[c1_r][c1_c] == set():
+                c1_c -= 1
+                if c1_c == -1:
+                    print("Empty Table!\n")
+                    return(False)
+            c1 = table[c1_r][c1_c]
+            #search for frist non-empty cell in curren column
+            while table[c2_r][c2_c] == set():
+                c2_r += 1
+                if c1_r == n:
+                    print("Empty Table!\n")
+                    return(False)
+            c2 = table[c2_r][c2_c]
+            #iterate through values at current cell c1
+            for c1_val in c1:
+                #iterate through values at current cell c2
+                for c2_val in c2:
+                    #iterate through nonterminals
+                    for nonterm in grammar:
+                        #iterate through productions of nonterminal
+                        for prod in grammar[nonterm]:
+                            look_prod = c1_val + c2_val
+                            if look_prod in prod:
+                                table[write_r][write_c].add(nonterm)
+            write_c += 1
+            write_r += 1
+            if write_c == n:
+                if write_r == 1:
+                    for row in table:
+                        print(row)    
+                    break
+                write_c = next_c
+                write_r = 0
 
