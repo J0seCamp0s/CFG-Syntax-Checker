@@ -5,7 +5,7 @@ class menu():
         self.command = command
     @staticmethod
     def get_command(usr_inpt):
-        usr_inpt = menu.format_string(usr_inpt)
+        usr_inpt = menu.format_string1(usr_inpt)
         accept_strings = ["xml","html","custom"]
         if usr_inpt not in accept_strings:
             print("Invalid input given!\nPlease try again.\n")
@@ -17,7 +17,7 @@ class menu():
         if usr_inpt == "custom":
             return(2)
     @staticmethod
-    def format_string(inpt_str):
+    def format_string1(inpt_str):
         fixed_str = ""
         for ch in inpt_str:
             if ch != ' ':
@@ -26,11 +26,7 @@ class menu():
         print(lowered_fixed_str)
         return (lowered_fixed_str)
     @staticmethod
-    def parse_file(path):
-        file = open(path, 'r')
-        # Read the file
-        inpt_str = file.read()
-
+    def format_string2(inpt_str):
         formatted_string = ""
         space_ignore = False
         for ch in inpt_str:
@@ -42,7 +38,14 @@ class menu():
                 if ch == '<':
                     space_ignore = False
             formatted_string += ch
-
+        return(formatted_string)
+    @staticmethod
+    def parse_file(path,mode):
+        file = open(path, 'r')
+        # Read the file
+        inpt_str = file.read()
+        if mode == 0 or mode == 1:
+            formatted_string = menu.format_string2(inpt_str)
         # Close the file
         file.close()
         return(formatted_string)
@@ -54,7 +57,9 @@ def main():
         mode = menu.get_command(inpt_mode)
         Prodcutions = CFG.get_cfg(mode)
         path = input("Please enter the name of the file you want to read:")
-        input_str = menu.parse_file(path)
+        input_str = menu.parse_file(path,mode)
+        result = CFG.cyk_algorithm(Prodcutions,'S',input_str)
+        print(result)
 
 if __name__ == "__main__":
     main()
