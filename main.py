@@ -33,6 +33,6 @@ def main():
         print("Type html for .html file\nType xml for .xml\nType custom for custom language file\n")
         inpt_mode = input("Please enter your input: ")
         mode = menu.get_command(inpt_mode)
-        
+        Prodcutions = CFG.get_cfg(mode)
 if __name__ == "__main__":
     main()
