@@ -33,18 +33,64 @@ class CFG():
         CFG.fill_table(table, grammar)
         return start_symbol in table[0][-1]
     @staticmethod
+    def find_substring(input_string, grammar):
+        s_idx = 0
+        exclude_idxs = []
+        for idx, ch in enumerate(input_string):
+            for nonterm in grammar:
+                for prod in grammar[nonterm]:
+                    if len(prod) > 1:
+                        s_idx = 0
+                        while s_idx < idx:
+                            substring = input_string[s_idx:idx+1]
+                            if substring == prod:
+                                idxs = [s_idx, idx+1]
+                                if idxs not in exclude_idxs:
+                                    exclude_idxs.append(idxs)
+                            s_idx += 1
+        return(exclude_idxs)
+
+    @staticmethod
+    def get_substring_numb(input_string, sub_idxs):
+        n = len(sub_idxs)
+        size = len(input_string)
+        total = 0
+        if len(sub_idxs) == 0:
+            return(len(input_string))
+        for idxs in sub_idxs:
+            sub_size = len(input_string[idxs[0]:idxs[1]])
+            total = total + sub_size
+        total = size - total
+        n = n + total
+        return(n)
+
+    @staticmethod
     def initialize_table(input_string, grammar):
-        n = len(input_string)
+        sub_idxs = CFG.find_substring(input_string, grammar)
+        n = CFG.get_substring_numb(input_string, sub_idxs)
         table = [[set() for _ in range(n)] for _ in range(n)]
         # Initialize the table with terminals derived directly from input symbols
-        for i, symbol in enumerate(input_string):
+
+        curr_idx = 0
+        i = 0
+        while curr_idx < len(input_string):
+            substring = input_string[curr_idx]
+            for idxs in sub_idxs:
+                if idxs[0] == curr_idx:
+                    substring = input_string[idxs[0]:idxs[1]]
+                    curr_idx = idxs[1]
+                    break
             for nonterm in grammar:
-                if symbol in grammar[nonterm]:
+                if substring in grammar[nonterm]:
                     if grammar[nonterm] == "None":
                         print(f"None found{nonterm}")
                     table[i][i].add(nonterm)
+            i+= 1
+            if len(substring) == 1:
+                curr_idx += 1
                 
         return table
+
     @staticmethod
     def fill_table(table, grammar):
         n = len(table)
