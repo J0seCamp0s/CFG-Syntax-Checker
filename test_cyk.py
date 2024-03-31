@@ -92,3 +92,34 @@ def test_initialize_table2(sample_grammar2, sample_input_string):
     assert table[2][3] == set()
     assert table[3][4] == set()
     assert table[4][5] == set()
+    assert table[5][6] == set()
+    assert table[6][7] == set()
+    assert table[8][9] == set()
+
+@pytest.fixture
+def sample_grammar3():
+    grammar = {
+        'S': ['NPVP'],
+        'VP': ['VBGNNS', 'VBZVP'],
+        'NP': ['DTNN', 'JJNNS'],
+        'DT': ['an'],
+        'NN': ['engineer'],
+        'VBZ': ['likes'],
+        'VBG': ['building'],
+        'JJ': ['building'],
+        'NNS': ['solutions'],
+    }
+    return grammar
+
+@pytest.fixture
+def sample_input_string2():
+    return 'anengineerlikesbuildingsolutions'
+
+def test_fill_table(sample_grammar3, sample_input_string2):
+    table = CFG.initialize_table(sample_input_string2, sample_grammar3)
+    CFG.fill_table(table, sample_grammar3)
+    assert table == [[{'DT'}, {'NP'}, set(), set(), {'S'}],
+    [set(), {'NN'}, set(), set(), set()],
+    [set(), set(), {'VBZ'}, set(), {'VP'}],
+    [set(), set(), set(), {'JJ', 'VBG'}, {'VP', 'NP'}],
+    [set(), set(), set(), set(), {'NNS'}]]
