@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 
-tree_iter = ET.iterparse('Xml_CFG.jff', events=('start', 'end'))
+tree_iter = ET.iterparse('Html_CFG.jff', events=('start', 'end'))
 
 prod_rules = {'S':[]}
 left_arr = []
@@ -20,118 +20,88 @@ for event, element in tree_iter:
             # Process the element here (e.g., extract data, analyze structure, etc.)
         element.clear()  # Clear the element from memory to conserve memory usage
 
-
-
-def initialize_table(input_string, grammar):
-    n = len(input_string)
-    table = [[set() for _ in range(n)] for _ in range(n)]
-    
-    # Initialize the table with terminals derived directly from input symbols
-    for i, symbol in enumerate(input_string):
-        for nonterm in grammar:
-            if symbol in grammar[nonterm]:
-                if grammar[nonterm] == "None":
-                    print(f"None found{nonterm}")
-                table[i][i].add(nonterm)
+class CFG():
+    @staticmethod
+    def cyk_algorithm(grammar, start_symbol, input_string):
+        table = CFG.initialize_table(input_string, grammar)
+        CFG.fill_table(table, grammar)
+        return start_symbol in table[0][-1]
+    @staticmethod
+    def initialize_table(input_string, grammar):
+        n = len(input_string)
+        table = [[set() for _ in range(n)] for _ in range(n)]
+        
+        # Initialize the table with terminals derived directly from input symbols
+        for i, symbol in enumerate(input_string):
+            for nonterm in grammar:
+                if symbol in grammar[nonterm]:
+                    if grammar[nonterm] == "None":
+                        print(f"None found{nonterm}")
+                    table[i][i].add(nonterm)
                 
-    return table
-
-def fill_table(table, grammar):
-    n = len(table)
-    column_arr = []
-    row_arr = []
-    for x in range(n):
-        column_arr.append(x)
-        row_arr.append(x)
-
-    start_row = 0
-    start_col = n-1
-    row_max = n
-    write_r = 0
-    write_c = 1
-    row_offset = 0
-    col_offset = 0
-    while True:
-        while table[start_row][start_col] == set():
-            start_col = start_col - 1
-            if start_col == -1:
-                print("Table empty\n")
-                return
-        c1 = table[start_row][start_col]
-        c1_row = start_row
-        c1_col = start_col
-        start_col = start_col +1
-        print(f"Current position of c1: [{c1_row}][{c1_col}]")
-        while table[start_row][start_col] == set():
-            start_row = start_row + 1
-            if start_row == n:
-                return("Table empty\n")
-        c2 = table[start_row][start_col]
-        c2_row = start_row
-        c2_col = start_col
-        print(f"Current position of c2: [{c2_row}][{c2_col}]")
-        for j in c1:
-                for k in c2:
-                    for key in grammar.keys():
-                        for prod in grammar[key]:
-                            look_string = j+k
-                            if look_string in prod:
-                                print(f"Current j: {j}")
-                                print(f"Current k: {k}")
-                                print(f"Found match in: {key}")
-                                print(f"Writting to: [{write_r + row_offset}][{write_c + col_offset}]\n")
-                                table[write_r + row_offset][write_c + col_offset].add(key)
-        for row in table:
-           print(row)
-        print("\n")
+        return table
+    @staticmethod
+    def fill_table(table, grammar):
+        n = len(table)
+        start_row = 0
         start_col = n-1
-        if start_row == row_max-1:
-            start_row = 0
-            row_max -= 1
-            write_c += 1
-            row_offset = 0
-            col_offset = 0
-            print("Diagonal finished\n")
-        if row_max == 1:
-            print("Parse finish\n")
-            break
-        row_offset += 1
-        col_offset += 1
-        print("Iteration finished\n")
-    #for x in column_arr:
-    #    
-    #    for y in row_arr:
-    #        for j in table[y][x]:
-    #            for k in table[y+1][y+1]:
-    #                for key in grammar.keys():
-    #                    for prod in grammar[key]:
-    #                        if j in prod and k in prod:
-    #                            table[y][x+1].add(key)
-    #        row_arr.pop()
-    #for length in range(2, n + 1):
-    #    for start in range(n - length + 1):
-    #        end = start + length - 1
-    #        for split in range(start, end):
-    #            for left in table[start][split]:
-    #                for right in table[split + 1][end]:
-    #                    for nonterm in grammar:
-    #                        if right in grammar[nonterm] and left in grammar[nonterm]:
-    #                            table[start][end].add(nonterm)
+        row_max = n
+        write_r = 0
+        write_c = 1
+        row_offset = 0
+        col_offset = 0
+        while True:
+            while table[start_row][start_col] == set():
+                start_col = start_col - 1
+                if start_col == -1:
+                    print("Table empty\n")
+                    return
+            for row in table:
+                print(row)
+            print("\n")
+            c1 = table[start_row][start_col]
+            c1_row = start_row
+            c1_col = start_col
+            start_col = start_col +1
+            print(f"Current position of c1: [{c1_row}][{c1_col}]")
+            while table[start_row][start_col] == set():
+                start_row = start_row + 1
+                if start_row == n:
+                    return("Table empty\n")
+            c2 = table[start_row][start_col]
+            c2_row = start_row
+            c2_col = start_col
+            print(f"Current position of c2: [{c2_row}][{c2_col}]")
+            for j in c1:
+                    for k in c2:
+                        for key in grammar.keys():
+                            for prod in grammar[key]:
+                                look_string = j+k
+                                if look_string in prod:
+                                    print(f"Current j: {j}")
+                                    print(f"Current k: {k}")
+                                    print(f"Found match in: {key}")
+                                    print(f"Writting to: [{write_r + row_offset}][{write_c + col_offset}]\n")
+                                    table[write_r + row_offset][write_c + col_offset].add(key)
+            start_col = n-1
+            if start_row == row_max-1:
+                start_row = 0
+                row_max -= 1
+                write_c += 1
+                row_offset = 0
+                col_offset = 0
+                print("Diagonal finished\n")
+            else:
+                row_offset += 1
+                col_offset += 1
+                print("Iteration finished\n")
+            if row_max == 1:
+                print("Parse finish\n")
+                break    
 
-def cyk_algorithm(grammar, start_symbol, input_string):
-    table = initialize_table(input_string, grammar)
-    fill_table(table, grammar)
-    return start_symbol in table[0][-1]
 
 start_symbol = 'S'
-input_string = '<root/>'
+input_string = '<!DOCTYPE html><html></html>'
 
-cfg = {
-    'S': [('AB',), ('BC',)],
-    'A': [('BA',), ('a',)],
-    'B': [('CC',), ('b',)],
-    'C': [('AB',), ('a',)]
-}
-
-result = cyk_algorithm(prod_rules, start_symbol, input_string)
+result = CFG.cyk_algorithm(prod_rules, start_symbol, input_string)
 print(result)  # Output: True
