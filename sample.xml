@@ -1,6 +1,6 @@
 <data>
     <models>
-        <model name="model1">model1abc</model>
-        <model name="model2">model2abc</model>
+        <model class="model1">model1abc</model>
+        <model class="model2">model2abc</model>
     </models>
 </data>

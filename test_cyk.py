@@ -119,7 +119,7 @@ def test_fill_table(sample_grammar3, sample_input_string2):
     table = CFG.initialize_table(sample_input_string2, sample_grammar3)
     CFG.fill_table(table, sample_grammar3)
     assert table == [[{'DT'}, {'NP'}, set(), set(), {'S'}],
-    [set(), {'NN'}, set(), set(), set()],
-    [set(), set(), {'VBZ'}, set(), {'VP'}],
-    [set(), set(), set(), {'JJ', 'VBG'}, {'VP', 'NP'}],
-    [set(), set(), set(), set(), {'NNS'}]]
+                    [set(), {'NN'}, set(), set(), set()],
+                    [set(), set(), {'VBZ'}, set(), {'VP'}],
+                    [set(), set(), set(), {'JJ', 'VBG'}, {'VP', 'NP'}],
+                    [set(), set(), set(), set(), {'NNS'}]]
