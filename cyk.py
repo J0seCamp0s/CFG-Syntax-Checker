@@ -96,15 +96,13 @@ class CFG():
         n = len(table)
         write_r = 0
         write_c = 1
-        next_c = 0
+        next_c = 2
         while True:
             #assign values for the position of cell to compare
             c1_r = write_r
             c1_c = write_c
             c2_r = write_r
             c2_c = write_c
-            if next_c < n-1:
-                next_c = write_c + 1
             #search for first non-empty cell in current row
             while table[c1_r][c1_c] == set():
                 c1_c -= 1
@@ -138,5 +136,6 @@ class CFG():
                         print(row)    
                     break
                 write_c = next_c
+                if next_c < n-1:
+                    next_c = write_c + 1
                 write_r = 0
-
