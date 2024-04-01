@@ -8,7 +8,7 @@ class CFG():
         if type == 1:
             tree_iter = ET.iterparse('Html_CFG.jff', events=('start', 'end'))
         if type == 2:
-            tree_iter = ET.iterparse('Custom_CFG.jff', events=('start', 'end'))
+            tree_iter = ET.iterparse('MadeUp.jff', events=('start', 'end'))
 
         prod_rules = {'S':[]}
         left_arr = []
