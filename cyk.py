@@ -139,3 +139,90 @@ class CFG():
                 if next_c < n-1:
                     next_c = write_c + 1
                 write_r = 0
+    
+    @staticmethod
+    def print_parse(table, grammar, input_string, sub_idxs):
+        n = len(table)
+        read_r = 0
+        read_c = n-1
+        next_c =  read_c-1
+        nonterm_arr = []
+        if table[0][n-1] == set():
+            print("Table Empty!/Error in parsing!\n")
+            return(False)
+        while True:
+            if table[read_r][read_c] != set():
+                c1_r = read_r
+                c1_c = read_c-1
+                c2_r = read_r+1
+                c2_c = read_c
+                #search for first non-empty cell in current row
+                while table[c1_r][c1_c] == set():
+                    c1_c -= 1
+                    if c1_c == -1:
+                        print("Empty Table!\n")
+                        return(False)
+                c1 = table[c1_r][c1_c]
+                #search for frist non-empty cell in current column
+                while table[c2_r][c2_c] == set():
+                    c2_r += 1
+                    if c1_r == n:
+                        print("Empty Table!\n")
+                        return(False)
+                c2 = table[c2_r][c2_c]
+                for nonterm in table[read_r][read_c]:
+                    for c1_val in c1:
+                        for c2_val in c2:
+                            look_string = c1_val+c2_val
+                            if look_string in grammar[nonterm]:
+                                Current_nonterm = str(nonterm)
+                                Current_len = len(Current_nonterm)
+                                padding_border = ("----------------------")
+                                padding_prod = ("")
+                                for x in range(Current_len):
+                                    padding_border += '-'
+                                    padding_prod += ' '
+                                print(f"{padding_border}")
+                                print(f"  {padding_prod}{c2_val}")
+                                print(f"{nonterm}--|")
+                                print(f"  {padding_prod}{c1_val}")
+                                print(f"{padding_border}")
+            read_c += 1
+            read_r += 1
+            if read_c == n:
+                read_c = next_c
+                if next_c > 0:
+                    next_c = read_c - 1
+                read_r = 0
+            if read_r == read_c:   
+                break
+        
+        read_c = 0
+        read_r = 0
+        while True:
+            cell = table[read_r][read_c]
+            for nonterm in cell:
+                nonterm_arr.append(nonterm)
+            read_c += 1
+            read_r += 1
+            if read_c == n:
+                break
+        curr_idx = 0
+        while curr_idx < len(input_string):
+                substring = input_string[curr_idx]
+                for idxs in sub_idxs:
+                    if idxs[0] == curr_idx:
+                        substring = input_string[idxs[0]:idxs[1]]
+                        curr_idx = idxs[1]
+                        break
+                for nonterm in nonterm_arr:
+                    if substring in grammar[nonterm]:
+                        padding_border = ("----------------------")
+                        padding_prod = ("")
+                        for x in range(Current_len):
+                            padding_border += '-'
+                        print(f"{padding_border}")
+                        print(f"{nonterm}--{substring}")
+                        print(f"{padding_border}")
+        for row in table:
+            print(row) 
