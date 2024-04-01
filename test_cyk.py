@@ -123,3 +123,63 @@ def test_fill_table(sample_grammar3, sample_input_string2):
                     [set(), set(), {'VBZ'}, set(), {'VP'}],
                     [set(), set(), set(), {'JJ', 'VBG'}, {'VP', 'NP'}],
                     [set(), set(), set(), set(), {'NNS'}]]
+
+def test_parse_print(sample_grammar3,sample_input_string2,capsys):
+    expected_ouput = """-----------------------
+   VP
+S--|
+   NP
+-----------------------
+------------------------
+    VP
+VP--|
+    VBZ
+------------------------
+------------------------
+    NN
+NP--|
+    DT
+------------------------
+------------------------
+    NNS
+VP--|
+    VBG
+------------------------
+------------------------
+    NNS
+NP--|
+    JJ
+------------------------
+------------------------
+DT--an
+------------------------
+------------------------
+NN--engineer
+------------------------
+------------------------
+VBZ--likes
+------------------------
+------------------------
+VBG--building
+------------------------
+------------------------
+JJ--building
+------------------------
+------------------------
+NNS--solutions
+------------------------
+[{'DT'}, {'NP'}, set(), set(), {'S'}]
+[set(), {'NN'}, set(), set(), set()]
+[set(), set(), {'VBZ'}, set(), {'VP'}]
+[set(), set(), set(), {'VBG', 'JJ'}, {'VP', 'NP'}]
+[set(), set(), set(), set(), {'NNS'}]
+"""
+    sample_idxs = [[0, 2], [2, 10], [10, 15], [15, 23], [23, 32]]
+    sample_table =  [[{'DT'}, {'NP'}, set(), set(), {'S'}],
+                    [set(), {'NN'}, set(), set(), set()],
+                    [set(), set(), {'VBZ'}, set(), {'VP'}],
+                    [set(), set(), set(), {'JJ', 'VBG'}, {'VP', 'NP'}],
+                    [set(), set(), set(), set(), {'NNS'}]]
+    CFG.print_parse(sample_table,sample_grammar3,sample_input_string2,sample_idxs)
+    captured = capsys.readouterr()
+    assert captured.out == expected_ouput
