@@ -125,7 +125,7 @@ def test_fill_table(sample_grammar3, sample_input_string2):
                     [set(), set(), set(), set(), {'NNS'}]]
 
 def test_parse_print(sample_grammar3,sample_input_string2,capsys):
-    expected_ouput = """-----------------------
+    expected_ouput1 = """-----------------------
    VP
 S--|
    NP
@@ -174,6 +174,55 @@ NNS--solutions
 [set(), set(), set(), {'VBG', 'JJ'}, {'VP', 'NP'}]
 [set(), set(), set(), set(), {'NNS'}]
 """
+    expected_ouput2 = """-----------------------
+   VP
+S--|
+   NP
+-----------------------
+------------------------
+    VP
+VP--|
+    VBZ
+------------------------
+------------------------
+    NN
+NP--|
+    DT
+------------------------
+------------------------
+    NNS
+NP--|
+    JJ
+------------------------
+------------------------
+    NNS
+VP--|
+    VBG
+------------------------
+------------------------
+DT--an
+------------------------
+------------------------
+NN--engineer
+------------------------
+------------------------
+VBZ--likes
+------------------------
+------------------------
+JJ--building
+------------------------
+------------------------
+VBG--building
+------------------------
+------------------------
+NNS--solutions
+------------------------
+[{'DT'}, {'NP'}, set(), set(), {'S'}]
+[set(), {'NN'}, set(), set(), set()]
+[set(), set(), {'VBZ'}, set(), {'VP'}]
+[set(), set(), set(), {'JJ', 'VBG'}, {'NP', 'VP'}]
+[set(), set(), set(), set(), {'NNS'}]
+"""
     sample_idxs = [[0, 2], [2, 10], [10, 15], [15, 23], [23, 32]]
     sample_table =  [[{'DT'}, {'NP'}, set(), set(), {'S'}],
                     [set(), {'NN'}, set(), set(), set()],
@@ -182,4 +231,4 @@ NNS--solutions
                     [set(), set(), set(), set(), {'NNS'}]]
     CFG.print_parse(sample_table,sample_grammar3,sample_input_string2,sample_idxs)
     captured = capsys.readouterr()
-    assert captured.out == expected_ouput
+    assert captured.out == expected_ouput1 or captured.out == expected_ouput2

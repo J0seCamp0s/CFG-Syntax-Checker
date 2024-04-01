@@ -18,3 +18,11 @@ def sample_input_string():
 def test_format_string2(sample_input_string):
     output = menu.format_string2(sample_input_string)
     assert output == "<root>treterteter</root><root>"
+
+@pytest.fixture
+def sample_input_string2():
+    return 'not respect space {not respect space } not respect space (respect space )\n\t\n'
+
+def test_format_string3(sample_input_string2):
+    output = menu.format_string3(sample_input_string2)
+    assert output == "notrespectspace{notrespectspace}notrespectspace(respect space )"

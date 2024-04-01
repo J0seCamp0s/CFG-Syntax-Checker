@@ -39,6 +39,19 @@ class menu():
                     space_ignore = False
             formatted_string += ch
         return(formatted_string)
+    def format_string3(inpt_str):
+        formatted_string = ""
+        space_ignore = True
+        for ch in inpt_str:
+            if space_ignore:
+                if ch == '(':
+                    space_ignore = False
+                if ch == ' ' or ch == '\n' or ch == '\t':
+                    continue
+            if ch == ')':
+                space_ignore = True
+            formatted_string += ch
+        return(formatted_string)
     @staticmethod
     def parse_file(path,mode):
         file = open(path, 'r')
