@@ -83,6 +83,7 @@ def main():
             if input_str == False:
                 continue
             break
+        #print(f"The file read is the following: {input_str}")
         result = CFG.cyk_algorithm(Prodcutions,'S',input_str,0)
         print(f"The result from parsing is the following: {result}")
         if result == True:
