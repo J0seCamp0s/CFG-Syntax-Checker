@@ -92,7 +92,8 @@ class CFG():
             i+= 1
             if len(substring) == 1:
                 curr_idx += 1
-                
+            if i == n:
+                break
         return table
 
     @staticmethod
