@@ -54,13 +54,19 @@ class menu():
         return(formatted_string)
     @staticmethod
     def parse_file(path,mode):
-        file = open(path, 'r')
-        # Read the file
-        inpt_str = file.read()
-        if mode == 0 or mode == 1:
-            formatted_string = menu.format_string2(inpt_str)
-        # Close the file
-        file.close()
+        try:
+            file = open(path, 'r')
+            # Read the file
+            inpt_str = file.read()
+            if mode == 0 or mode == 1:
+                formatted_string = menu.format_string2(inpt_str)
+            else:
+                formatted_string = menu.format_string3(inpt_str)
+            # Close the file
+            file.close()
+        except FileNotFoundError:
+            print("File not found or cannot be accessed.\n")
+            formatted_string = False
         return(formatted_string)
 def main():
     while True:
@@ -68,11 +74,26 @@ def main():
         print("Type html for .html file\nType xml for .xml\nType custom for custom language file\n")
         inpt_mode = input("Please enter your input: ")
         mode = menu.get_command(inpt_mode)
+        if mode == -1:
+            continue
         Prodcutions = CFG.get_cfg(mode)
-        path = input("Please enter the name of the file you want to read:")
-        input_str = menu.parse_file(path,mode)
-        result = CFG.cyk_algorithm(Prodcutions,'S',input_str)
-        print(result)
+        while True:
+            path = input("Please enter the name of the file you want to read:")
+            input_str = menu.parse_file(path,mode)
+            if input_str == False:
+                continue
+            break
+        result = CFG.cyk_algorithm(Prodcutions,'S',input_str,0)
+        print(f"The result from parsing is the following: {result}")
+        if result == True:
+            while True:
+                printing = input("Would you like to print the parsing tree?\nYes = 1\n No = 0\nPlease enter you input: ")
+                if printing != 0 and printing != 1:
+                    print("Invalid input! Please try again\n")
+                elif printing == 0:
+                    break
+                elif printing == 1:
+                    CFG.cyk_algorithm(Prodcutions,'S',input_str,1)
 
 if __name__ == "__main__":
     main()

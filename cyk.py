@@ -28,10 +28,14 @@ class CFG():
                 element.clear()  # Clear the element from memory to conserve memory usage
         return prod_rules
     @staticmethod
-    def cyk_algorithm(grammar, start_symbol, input_string):
-        table = CFG.initialize_table(input_string, grammar)
-        CFG.fill_table(table, grammar)
-        return start_symbol in table[0][-1]
+    def cyk_algorithm(grammar, start_symbol, input_string, mode):
+            table = CFG.initialize_table(input_string, grammar)
+            CFG.fill_table(table, grammar)
+            if mode == 0: 
+                idxs = CFG.find_substring(input_string, grammar)
+                CFG.print_parse(table,grammar,input_string,idxs)
+            return start_symbol in table[0][-1]
+        
     @staticmethod
     def find_substring(input_string, grammar):
         s_idx = 0
