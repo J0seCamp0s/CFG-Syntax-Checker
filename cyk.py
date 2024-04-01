@@ -123,8 +123,12 @@ class CFG():
             c2 = table[c2_r][c2_c]
             #iterate through values at current cell c1
             for c1_val in c1:
+                if c1_val == None:
+                    continue
                 #iterate through values at current cell c2
                 for c2_val in c2:
+                    if c2_val == None:
+                        continue
                     #iterate through nonterminals
                     for nonterm in grammar:
                         #iterate through productions of nonterminal
@@ -176,7 +180,11 @@ class CFG():
                 c2 = table[c2_r][c2_c]
                 for nonterm in table[read_r][read_c]:
                     for c1_val in c1:
+                        if c1_val == None:
+                            continue
                         for c2_val in c2:
+                            if c2_val == None:
+                                continue
                             look_string = c1_val+c2_val
                             if look_string in grammar[nonterm]:
                                 Current_nonterm = str(nonterm)
