@@ -9,3 +9,8 @@ The proyect's code is spread throughout two files:
 1. main.py: This file has the menu and basic instructions executed through the command prompt, such as reading
 files and printing outputs.
 2. cyk.py: This file has the CYK algorithm to parse the input string given by the user against the grammar selected in the menu. It also contains helper functions for the CYK algorithm. 
+## Sample files:
+Each Grammar has a specific file it has to read.
+- Html_CFG: sample.html
+- Xml_CFG: sample.xml
+- MadeUp: sample.sbw
